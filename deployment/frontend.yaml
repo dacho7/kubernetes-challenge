@@ -1,28 +1,36 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend-service
+  name: frontend
+  namespace: challenge-ns
 spec:
   selector:
     app: frontend
   ports:
-  - protocol: TCP
-    port: 4200
-    targetPort: 80
-  type: NodePort
+    - protocol: TCP
+      port: 80
+      targetPort: 80
 ---
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: frontend-pod
-  labels:
-    app: frontend 
+  name: frontend
+  namespace: challenge-ns
 spec:
-  containers:
-  - name: frontend-container
-    image: gporras/chat-socket-front:latest
-    ports:
-    - containerPort: 80
-    env:
-    - name: API_URL
-      value: "backend-service:8081/chat-websocket"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: gporras/chat-socket-front:latest
+          env:
+            - name: API_URL
+              value: "http://backend:8080/chat-websocket"
+          ports:
+            - containerPort: 80
