@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: backend
+  name: backend-service
   namespace: challenge-ns
 spec:
   selector:
-    app: backend
+    app: backend-deployment
   ports:
     - protocol: TCP
       port: 8080
@@ -14,7 +14,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend
+  name: backend-deployment
   namespace: challenge-ns
 spec:
   replicas: 1
@@ -33,7 +33,7 @@ spec:
             - name: SPRING_PROFILES_ACTIVE
               value: "pdn"
             - name: MONGO_HOST
-              value: "mongo"
+              value: "mongo-service"
             - name: MONGO_PORT
               value: "27017"
             - name: MONGO_USERNAME

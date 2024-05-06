@@ -1,0 +1,46 @@
+version: '3.7' # specify docker-compose version
+
+services:
+  mongo: #database 
+    container_name:  mongo
+    image: mongo:4.4
+    hostname: mongo
+    environment: 
+      TZ: "America/Bogota" #Time zone south america
+      MONGO_INITDB_ROOT_USERNAME: "devuser"
+      MONGO_INITDB_ROOT_PASSWORD: "devpassword"
+    ports:
+      - 27017:27017
+    networks:
+      - angular-chat-net
+  backend: #name backend service spring boot app
+    image: gporras/chat-socket-broker:latest
+    hostname:  backend-chat
+    ports:
+       - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=pdn
+      - MONGO_HOST=mongo
+      - MONGO_PORT=27017
+      - MONGO_USERNAME=devuser
+      - MONGO_PASSWORD=devpassword
+    depends_on: 
+       - mongo
+    networks:
+       - angular-chat-net 
+  frontend: #name front end app0
+    image: gporras/chat-socket-front:latest
+    container_name: frontend-chat
+    hostname:  frontend-chat
+    ports:
+      - "4200:80"
+    environment:
+      - API_URL=http://localhost:8080/chat-websocket #Set url backend api
+    restart: on-failure
+    networks:
+      - angular-chat-net 
+    depends_on:
+      - backend  
+networks:
+ angular-chat-net:
+    driver: bridge
