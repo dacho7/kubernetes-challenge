@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: chat-app-ingress
+spec:
+  rules:
+  - host: challenge.authorization-tobarconsa.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: backend-service/chat-websocket
+            port:
+              number: 8080

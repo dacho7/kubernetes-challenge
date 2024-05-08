@@ -4,7 +4,7 @@ metadata:
   name: frontend-ingress
 spec:
   rules:
-  - host: challenge.authorization.com
+  - host: challenge-authorization.com
     http:
       paths:
       - path: /
