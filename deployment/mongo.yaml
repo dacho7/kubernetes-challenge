@@ -42,3 +42,13 @@ spec:
                   key: mongo-root-password
           ports:
             - containerPort: 27017
+          livenessProbe:
+            exec:
+              command:
+              - mongo
+              - --eval
+              - "db.runCommand('ping').ok"
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 10
+            failureThreshold: 5

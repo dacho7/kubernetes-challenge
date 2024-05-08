@@ -4,13 +4,13 @@ metadata:
   name: chat-app-ingress
 spec:
   rules:
-  - host: challenge.authorization-tobarconsa.com
+  - host: challenge-authorization-backendtobar.com
     http:
       paths:
       - pathType: Prefix
         path: "/"
         backend:
           service:
-            name: backend-service/chat-websocket
+            name: backend-service
             port:
               number: 8080

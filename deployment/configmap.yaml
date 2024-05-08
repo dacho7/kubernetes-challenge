@@ -6,4 +6,4 @@ data:
   SPRING_PROFILES_ACTIVE: "pdn"
   MONGO_HOST: "mongo-service"
   MONGO_PORT: "27017"
-  API_URL: "http://challenge.authorization-tobarconsa.com/chat-websocket"
+  API_URL: "http://challenge-authorization-backendtobar.com/chat-websocket"
